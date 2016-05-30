@@ -2,7 +2,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<title>Mon Site</title>
+	<title>Mon Site - <?= $titrePage ?> </title>
  	<meta name="viewport" content="width=device-width, initial-scale=1">
 
  	<link rel="stylesheet" href="style.css">
@@ -83,7 +83,7 @@
 		  </div>
 		</div>
 
-		<!-- Modal SIGN UP--> <!-- FAIRE LES TESTS -->
+		<!-- Modal SIGN UP-->
 		<div class="modal fade" id="sign-up" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog modal-lg" role="document">
 		    <div class="modal-content">

@@ -28,6 +28,10 @@ if(isset($_GET['action'])){
 	$_SESSION['action'] = $_GET['action'];
 }
 
+if(isset($_POST['inscription']) || isset($_POST['connexion']) || isset($_POST['deconnexion'])){
+	require_once("Controler/process_form.php");
+}
+
 if(isset($_GET['section'])){
 
 	$section = $_GET['section'];
@@ -52,8 +56,6 @@ else {
 
 // DONNEES POST ET TEST FORMULAIRES
 
-if(isset($_POST['inscription']) || isset($_POST['connexion']) || isset($_POST['deconnexion'])){
-	require_once("Controler/process_form.php");
-}
+
 
 ?>

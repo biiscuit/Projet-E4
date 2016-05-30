@@ -1,7 +1,8 @@
 <?php 
-
+	$cat = new CategorieManager();
 	$titrePage = "Catégorie";
 	ob_start();
+	$liste = $cat->getAllCategorieLimit($cnx,0,10);
 ?>
 
 <table class="table">

@@ -42,7 +42,7 @@
 		public function getAllCategorieLimit($cnx,$start,$decal){
 			
 			// Requete SQL
-			$sql= "SELECT * FROM categories ORDER BY NOM_CAT LIMIT ?,?";
+			$sql= "SELECT * FROM categories ORDER BY ID_CAT LIMIT ?,?";
 
 			// Préparation de la requete
 			$req = $cnx->prepare($sql);

@@ -20,7 +20,9 @@ switch ($form_action) {
 	case 0:
 		if($usr->seConnecter($cnx,$_POST['inputEmail'],$_POST['inputPassword']) == true){
 			$_SESSION['id_client'] = $usr->getId();
+			$msg->addSuccessMessage("Vous êtes bien connecté.");
 		}
+		$msg->ShowMessage();
 		require_once('View/home.php');
 		break;
 	
@@ -61,7 +63,9 @@ switch ($form_action) {
 
 	case 2:
 		unset($_SESSION['id_client']);
-		header('index.php?section=1');
+		$msg->addSuccessMessage("Vous êtes bien déconnecté.");
+		//header('index.php?section=1');
+		$msg->ShowMessage();
 		break;
 }
 
