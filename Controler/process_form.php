@@ -28,7 +28,28 @@ switch ($form_action) {
 		/*if($usr->inscrireClient($_POST) == true){
 			// Message flash inscription bien effectué
 		}*/
-		$usr->inscrireClient($_POST);
+
+		// Si le numéro de téléphone ne correspond pas à l'expression régulière alors message d'erreur
+		if(!preg_match('/^[0-9]{2}([\. -]?[0-9]{2}){4}$/',$_POST['inputTel'])){
+			$msg->addErrorMessage("Mauvais numéro de téléphone.");
+		}
+
+		// Si le code postal ne correspond pas à l'expression régulière alors message d'erreur
+		if(!preg_match('/^[0-9]{5}$/',$_POST['inputCP'])){
+			$msg->addErrorMessage("Mauvais Code Postal.");
+		}
+
+		// Si les 2 mots de passes sont différents alors message d'erreur
+		if($_POST['inputPassword'] != $_POST['inputPassword2']){
+			$msg->addErrorMessage("Les deux mots de passes sont différents.");
+		}
+
+		if($msg->messageErrorExists() == false){
+			$usr->inscrireClient($cnx,$_POST);
+		}
+		else{
+			$msg->ShowMessage();
+		}
 		break;
 
 	case 2:

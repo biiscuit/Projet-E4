@@ -120,7 +120,7 @@
 					        <input type="text" id="inputVille" name="inputVille" class="form-control" placeholder="Ville" required> <br/>
 
 					        <label for="inputCP" class="sr-only">Code Postal</label>
-					        <input type="text" id="inputCP" name="inputCP" class="form-control" placeholder="Code Postal" required> <br/>
+					        <input type="text" id="inputCP" name="inputCP" maxlength="5" class="form-control" placeholder="Code Postal" required> <br/>
 
 					        <label for="inputTel" class="sr-only">Téléphone</label>
 					        <input type="tel" id="inputTel" name="inputTel" class="form-control" placeholder="Téléphone"> <br/>

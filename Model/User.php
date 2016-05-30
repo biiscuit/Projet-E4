@@ -30,9 +30,16 @@
 			}
 		}
 
-		function inscrireClient($tableau){
+		function inscrireClient($cnx,$tableau){
 
-			var_dump($tableau);
+			// On ne modifie pas le mdp maintenant car il y a un déclencheur dans la base qui le fait à l'inscription
+			$sql = "INSERT INTO Clients VALUES (null,?,?,?,?,?,?,?,?,?)";
+			$req = $cnx->prepare($sql);
+			$res = $req->execute(array($tableau["gender"],$tableau["inputNom"],$tableau['inputPrenom'],$tableau['inputAdresse'],
+										$tableau['inputVille'],$tableau['inputCP'],$tableau['inputTel'],$tableau['inputEmail'],
+										$tableau['inputPassword']));
+
+
 		}
 
 

@@ -18,6 +18,7 @@ $_SESSION['action'] = "listing";
 // CONNEXION BDD
 $db = new Database();
 $cnx = $db->connect();
+$msg = new Message();
 
 // RECUPERE GET DE L'URL
 
@@ -49,10 +50,8 @@ if(isset($_GET['section'])){
 			break;
 	}
 }
-else{
+else {
 	require_once("View/home.php");
 }
-
-
 
 ?>
