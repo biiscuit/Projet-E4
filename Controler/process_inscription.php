@@ -45,12 +45,14 @@ switch ($form_action) {
 		}
 
 		if($msg->messageErrorExists() == false){
+			
 			if($usr->inscrireClient($cnx,$_POST) == true){
 				$msg->addSuccessMessage("L'inscription s'est bien effectué.");
 			}
 			else{
 				$msg->addErrorMessage("Erreur lors de l'inscription.");
 			}
+			
 			$msg->ShowMessage();
 		}
 		else{

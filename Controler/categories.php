@@ -12,7 +12,7 @@ $mng = new CategorieManager();
 			break;
 
 		case 'modification':
-			$cat = $mng->getCategorieById($cnx,$id);
+			$cat = $mng->getCategorieById($cnx,$_GET['id']);
 			require_once("View/modif_categorie.php");
 			break;
 
@@ -26,5 +26,4 @@ $mng = new CategorieManager();
 
 			break;	
 	}
-
 ?>
