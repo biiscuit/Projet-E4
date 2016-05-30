@@ -39,7 +39,8 @@
 										$tableau['inputVille'],$tableau['inputCP'],$tableau['inputTel'],$tableau['inputEmail'],
 										$tableau['inputPassword']));
 
-
+			// return true si l'ajout s'est effectué et false dans le cas contraire
+			return $res;
 		}
 
 
