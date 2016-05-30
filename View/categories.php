@@ -5,6 +5,8 @@
 ?>
 
 <table class="table">
+ 
+ <!-- FAIRE UN TABLEAU AVEC LES CATS ET UNE IMAGE -->
 	<th>Libellé</th>
 	<th>mod</th>
 	<th>sup</th>
