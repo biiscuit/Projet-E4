@@ -83,7 +83,7 @@
 		  </div>
 		</div>
 
-		<!-- Modal SIGN UP-->
+		<!-- Modal SIGN UP--> <!-- FAIRE LES TESTS -->
 		<div class="modal fade" id="sign-up" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
 		  <div class="modal-dialog modal-lg" role="document">
 		    <div class="modal-content">

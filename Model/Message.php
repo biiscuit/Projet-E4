@@ -13,7 +13,7 @@
 		function showMessage(){
 
 			if(!empty($_SESSION['message']['success'])){
-				echo "<div class='alert alert-success' style='text-align:center'>" .implode('<br>',$_SESSION['message']['success']). "</div>";
+				echo "<div class='alert alert-success'>" .implode('<br>',$_SESSION['message']['success']). "</div>";
 				unset($_SESSION['message']['success']);
 			}
 

@@ -13,22 +13,25 @@ spl_autoload_register('monAutoloader');
 // CONTROLE DE SESSION
 session_start();
 $_SESSION['action'] = "listing";
-$msg = new Message();
-
-if(isset($_GET['action'])){
-	$_SESSION['action'] = $_GET['action'];
-}
+//var_dump($_SESSION);
 
 // CONNEXION BDD
 $db = new Database();
 $cnx = $db->connect();
+$msg = new Message();
 
 // RECUPERE GET DE L'URL
 
 $section = 0;
 
+if(isset($_GET['action'])){
+	$_SESSION['action'] = $_GET['action'];
+}
 
-// DIFFERENTES PAGES DU SITE
+if(isset($_POST['inscription']) || isset($_POST['connexion']) || isset($_POST['deconnexion'])){
+	require_once("Controler/process_form.php");
+}
+
 if(isset($_GET['section'])){
 
 	$section = $_GET['section'];
@@ -49,16 +52,6 @@ if(isset($_GET['section'])){
 }
 else {
 	require_once("View/home.php");
-}
-
-// LES DONNEES POST ET ENVOI VERS PROCESS
-
-if(isset($_POST['modif_cat'])){
-	require_once("Controler/process_cat.php");
-}
-
-if(isset($_POST['inscription']) || isset($_POST['connexion']) || isset($_POST['deconnexion'])){
-	require_once("Controler/process_inscription.php");
 }
 
 ?>

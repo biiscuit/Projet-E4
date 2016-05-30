@@ -23,7 +23,7 @@
 		public function setLibelle($lib){
 			$this->libelle = $lib;
 		}
-		
+
 	}
 
 ?>
