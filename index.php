@@ -13,6 +13,10 @@ spl_autoload_register('monAutoloader');
 // CONTROLE DE SESSION
 session_start();
 $_SESSION['action'] = "listing";
+//unset($_SESSION['panier']);
+if(!isset($_SESSION['panier'])){
+	$_SESSION['panier'] = new Panier();
+}
 
 
 // CONNEXION BDD

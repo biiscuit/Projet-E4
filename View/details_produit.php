@@ -44,7 +44,6 @@
 				</table>
 
 				<?php
-				var_dump($_POST);
 					if($produit->getStockProd() != 0){
 				?>
 

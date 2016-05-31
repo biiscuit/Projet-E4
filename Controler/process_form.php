@@ -72,6 +72,18 @@ switch ($form_action) {
 
 	case 3:
 		if(isset($_SESSION['id_client'])){
+			/*$_SESSION['panier']->ajouterId($cnx,4,33); // 0
+			$_SESSION['panier']->ajouterId($cnx,6,3); // 1
+			$_SESSION['panier']->ajouterId($cnx,4,33);
+			$_SESSION['panier']->ajouterId($cnx,2,34); // 2
+			$_SESSION['panier']->ajouterId($cnx,8,3); // 3
+			$_SESSION['panier']->ajouterId($cnx,6,3);
+			$_SESSION['panier']->ajouterId($cnx,10,4); // 4
+			$_SESSION['panier']->ajouterId($cnx,2,3);
+			$_SESSION['panier']->ajouterId($cnx,11,3); // 5*/
+			var_dump($_SESSION['panier']);
+			$_SESSION['panier']->supprimerId($cnx,2);
+			var_dump($_SESSION['panier']);
 
 		}
 		else{
