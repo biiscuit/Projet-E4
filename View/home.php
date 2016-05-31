@@ -19,7 +19,7 @@
 
 	// le compteur d'images par ligne, il commence a 0 , et on fait un modulo dessus pour finir
 	$compteur = 0;
-	$lstProd = $pdt->getAllProduitsByLimit($cnx,$pagination->getStart(),$pagination->getDecal());
+	$lstProd = $pdt->getAllProduitsLimit($cnx,$pagination->getStart(),$pagination->getDecal());
 
 ?>
 

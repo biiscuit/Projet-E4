@@ -41,33 +41,22 @@
 
 		public function getAllCategorieLimit($cnx,$start,$decal){
 			
-			// Requete SQL
-			$sql= "SELECT * FROM categories ORDER BY ID_CAT LIMIT ?,?";
-
-			// Préparation de la requete
+			$sql = "SELECT * FROM categories ORDER BY id_cat";
 			$req = $cnx->prepare($sql);
+			$res = $req->execute();
 
-			// Execution de la requete
-			$req->execute(array($start,$decal));
-
-			// On créer une liste d'objet
 			$liste = array();
 
-			// Traitement des enregistrements
-			
-			// Ne renvoi pas un objet Categorie mais un objet StdClass
-			// $test2 = $req->fetchAll(PDO::FETCH_OBJ);
-
 			while($record = $req->fetch(PDO::FETCH_OBJ)){
-				$obj = new Categorie();
+					$obj = new Categorie();
 
-				$obj->setIdCategorie($record->ID_CAT);
-				$obj->setLibelle($record->NOM_CAT);
+					$obj->setIdCategorie($record->ID_CAT);
+					$obj->setLibelle($record->NOM_CAT);
 
-				$liste[] = $obj;
-			}
+					$liste[] = $obj;
+				}
 
-			return $liste;
+				return $liste;
 		}
 
 		public function getCategorieById($cnx,$id){
@@ -85,6 +74,14 @@
 
 			return $obj;
 		}
+
+		public function getNbCategories($cnx){
+
+		$sql = "SELECT count(*) as 'nb_cat' FROM categories";
+		$req = $cnx->query($sql)->fetch(PDO::FETCH_OBJ);
+
+		return $req;
+	}
 
 	}
 

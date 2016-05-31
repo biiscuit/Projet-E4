@@ -1,32 +1,70 @@
 <?php 
+
+	$titrePage = "Catégories";
 	$cat = new CategorieManager();
-	$titrePage = "Catégorie";
+	$pagination = new Pagination();
 	ob_start();
-	$liste = $cat->getAllCategorieLimit($cnx,0,10);
+
+	$pagination->setDecal(18);
+	$pagination->setNbPage($cat->getNbCategories($cnx)->nb_cat,$pagination->getDecal());
+
+	if(isset($_GET['page'])){
+		$pagination->setStart($_GET['page']);
+		$pagination->setPageActuelle($_GET['page']);
+	}
+	else{
+		$pagination->setStart(0);
+		$pagination->setPageActuelle(1);
+	}
+
+	// le compteur d'images par ligne, il commence a 0 , et on fait un modulo dessus pour finir
+	$compteur = 0;
+	$lstCat = $cat->getAllCategorieLimit($cnx,$pagination->getStart(),$pagination->getDecal());
+
 ?>
 
-<table class="table">
- 
- <!-- FAIRE UN TABLEAU AVEC LES CATS ET UNE IMAGE -->
-	<th>Libellé</th>
-	<th>mod</th>
-	<th>sup</th>
+<table class="table table-bordered">
 
 <?php
-	foreach ($liste as $value) {
+	if(count($lstCat) == 0){
+		echo '<td width:100% class="text-center"> Aucun Résultat </td>';
+	}
+	else{
+		echo '<tr>';
+		foreach ($lstCat as $value) {
+			$compteur++;
 ?>
-	<tr>
-		<td><?php echo $value->getLibelle();?></td>
-		<td><a href="index.php?id=<?php echo $value->getIdCategorie();?>&section=<?php echo $section?>&action=modification">modifier</a></td>
-		<td><a href="index.php?id=<?php echo $value->getIdCategorie();?>&section=<?php echo $section?>&action=suppression">supprimer</a></td>
-	</tr>
-<?php 
-}
+	<td width=33%> 
+				<!-- href="index.php?page=details_produit&id_produit=<?php //$value['id_produit']?><!-- " -->
+		<a class="btn btn-link center-block" >
+			<div class="text-center">
+				<p class=""> <u> <?php echo $value->getLibelle() ?> </u></p>
+			</div>
+		</a>
+	</td>
+<?php
+			if($compteur % 3 == 0){
+				echo '</tr>';
+				echo '<tr>';
+			}
+		}
+	}
 ?>
+
 </table>
 
-	<p> Le HTML du contenu principal de la catégorie est ici </p>
+			<div class="text-center">
 
+			<?php
+				for ($i=1; $i <= $pagination->getNbPage(); $i++) { 
+			?>
+					<a class="btn btn-primary" href="index.php?section=1&page=<?= $i ?>"> <?= $i ?></a>
+			<?php
+				}
+			?>
+
+
+			
 <?php
 
 	$content = ob_get_clean();
