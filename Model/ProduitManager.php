@@ -73,4 +73,25 @@ class ProduitManager{
 		return $req;
 	}
 
+	public function getProduitById($cnx,$id_prod){
+
+		$sql = "SELECT * FROM produits WHERE ID_PROD = ?";
+		$req = $cnx->prepare($sql);
+		$req->execute(array($id_prod));
+
+		$obj = new Produit();
+		while($record = $req->fetch(PDO::FETCH_OBJ)){
+
+				$obj->setIdProd($record->ID_PROD);
+				$obj->setIdFourn($record->ID_FOURN);
+				$obj->setIdCat($record->ID_CAT);
+				$obj->setNomProd($record->NOM_PROD);
+				$obj->setPrixProd($record->PRIX_PROD);
+				$obj->setStockProd($record->STOCK_PROD);
+				$obj->setImgProd($record->IMG_PROD);
+				$obj->setDescription($record->DESCRIPTION);
+			}
+		return $obj;
+
+	}
 }

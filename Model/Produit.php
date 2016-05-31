@@ -44,11 +44,11 @@ Class Produit{
 	}
 
 	public function setprixProd($prix){
-		$this->prixProd = $prix;
+		$this->prix_prod = $prix;
 	}
 
 	public function getPrixProd(){
-		return $this->prixProd;
+		return $this->prix_prod;
 	}
 
 	public function setStockProd($stock){

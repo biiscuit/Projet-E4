@@ -22,15 +22,14 @@ switch ($form_action) {
 			$_SESSION['id_client'] = $usr->getId();
 			$msg->addSuccessMessage("Vous êtes bien connecté.");
 		}
+		else{
+			$msg->addErrorMessage("Erreur lors de la connexion");
+		}
 		$msg->ShowMessage();
-		require_once('View/home.php');
+		require_once('Controler/produits.php');
 		break;
 	
 	case 1:
-		/*if($usr->inscrireClient($_POST) == true){
-			// Message flash inscription bien effectué
-		}*/
-
 		// Si le numéro de téléphone ne correspond pas à l'expression régulière alors message d'erreur
 		if(!preg_match('/^[0-9]{2}([\. -]?[0-9]{2}){4}$/',$_POST['inputTel'])){
 			$msg->addErrorMessage("Mauvais numéro de téléphone.");
@@ -64,7 +63,6 @@ switch ($form_action) {
 	case 2:
 		unset($_SESSION['id_client']);
 		$msg->addSuccessMessage("Vous êtes bien déconnecté.");
-		//header('index.php?section=1');
 		$msg->ShowMessage();
 		break;
 }

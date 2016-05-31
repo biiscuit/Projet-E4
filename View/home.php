@@ -17,7 +17,7 @@
 			$compteur++;
 ?>
 	<td width=33%> 
-		<a class="btn btn-link center-block" href='index.php?page=section=0&id_produit=<?= $value->getIdProd();?>'>
+		<a class="btn btn-link center-block" href='index.php?section=0&action=2&id_produit=<?= $value->getIdProd();?>'>
 			<div class="text-center">
 				<img style="height:120px" src='<?= $value->getImgProd(); ?>'>
 				<p class=""> <u> <?php echo $value->getNomProd() ?> </u></p>

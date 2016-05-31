@@ -10,6 +10,10 @@ html {
   min-height: 100%;
 }
 
+.descr_prod tr{
+  height:45px;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
