@@ -2,20 +2,24 @@
 
 	$titrePage = "Accueil";
 	$pdt = new ProduitManager();
+	$pagination = new Pagination();
 	ob_start();
 
-	// $start = id du produit que l'on commence à afficher, et $nb_show = nombre de produits qu'on affiche sur une page
-	if(!isset($_GET['page']) || $_GET['page'] == 1){
-		$start = 0;
+	$pagination->setDecal(9);
+	$pagination->setNbPage($pdt->getNbProduits($cnx)->nb_prod,$pagination->getDecal());
+
+	if(isset($_GET['page'])){
+		$pagination->setStart($_GET['page']);
+		$pagination->setPageActuelle($_GET['page']);
 	}
 	else{
-		$start = ($_GET['page']-1)*9;
+		$pagination->setStart(0);
+		$pagination->setPageActuelle(1);
 	}
-	
-	$nb_show = 9;
+
 	// le compteur d'images par ligne, il commence a 0 , et on fait un modulo dessus pour finir
 	$compteur = 0;
-	$lstProd = $pdt->getAllProduitsByLimit($cnx,$start,$nb_show);
+	$lstProd = $pdt->getAllProduitsByLimit($cnx,$pagination->getStart(),$pagination->getDecal());
 
 ?>
 
@@ -51,15 +55,10 @@
 
 </table>
 
-<?php
-				$nb_produits = $pdt->getNbProduits($cnx);
-				$nb_page = ceil(($nb_produits->nb_prod/9));
-			?>
-
 			<div class="text-center">
 
 			<?php
-				for ($i=1; $i <= $nb_page; $i++) { 
+				for ($i=1; $i <= $pagination->getNbPage(); $i++) { 
 			?>
 					<a class="btn btn-primary" href="index.php?section=0&page=<?= $i ?>"> <?= $i ?></a>
 			<?php

@@ -69,6 +69,9 @@ Class Produit{
 
 		//on enleve une partie du chemin pour qu'il s'affiche avec wampserver
 		$this->img_prod = substr($this->img_prod, 20);
+
+		//Création du chemin relatif
+		$this->img_prod = '../Projets/'.$this->img_prod;
 		return $this->img_prod;
 	}
 
