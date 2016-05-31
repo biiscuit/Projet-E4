@@ -17,8 +17,7 @@
 			$compteur++;
 ?>
 	<td width=33%> 
-				<!-- href="index.php?page=details_produit&id_produit=<?php //$value['id_produit']?><!-- " -->
-		<a class="btn btn-link center-block" >
+		<a class="btn btn-link center-block" href="index.php?section=1&action=2&id_cat=<?= $value->getIdCategorie()?> " >
 			<div class="text-center">
 				<p class=""> <u> <?php echo $value->getLibelle() ?> </u></p>
 			</div>

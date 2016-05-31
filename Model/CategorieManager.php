@@ -41,8 +41,11 @@
 
 		public function getAllCategorieLimit($cnx,$start,$decal){
 			
-			$sql = "SELECT * FROM categories ORDER BY id_cat";
+			$sql = "SELECT * FROM categories ORDER BY id_cat LIMIT ?,?";
 			$req = $cnx->prepare($sql);
+
+			$req->bindParam(1, $start, PDO::PARAM_INT);
+        	$req->bindParam(2, $decal, PDO::PARAM_INT);
 			$res = $req->execute();
 
 			$liste = array();
@@ -77,11 +80,40 @@
 
 		public function getNbCategories($cnx){
 
-		$sql = "SELECT count(*) as 'nb_cat' FROM categories";
-		$req = $cnx->query($sql)->fetch(PDO::FETCH_OBJ);
+			$sql = "SELECT count(*) as 'nb_cat' FROM categories";
+			$req = $cnx->query($sql)->fetch(PDO::FETCH_OBJ);
 
-		return $req;
-	}
+			return $req;
+		}
+
+		public function getAllProdByCat($cnx,$start,$decal,$id_cat){
+
+			$sql = "SELECT * FROM produits WHERE ID_CAT = ? ORDER BY ID_PROD LIMIT ?,?";
+			$req = $cnx->prepare($sql);
+			$req->bindParam(1, $id_cat, PDO::PARAM_INT);
+			$req->bindParam(2, $start, PDO::PARAM_INT);
+	        $req->bindParam(3, $decal, PDO::PARAM_INT);
+	        $req->execute();
+
+			$liste = array();
+
+			while($record = $req->fetch(PDO::FETCH_OBJ)){
+					$obj = new Produit();
+
+					$obj->setIdProd($record->ID_PROD);
+					$obj->setIdFourn($record->ID_FOURN);
+					$obj->setIdCat($record->ID_CAT);
+					$obj->setNomProd($record->NOM_PROD);
+					$obj->setPrixProd($record->PRIX_PROD);
+					$obj->setStockProd($record->STOCK_PROD);
+					$obj->setImgProd($record->IMG_PROD);
+					$obj->setDescription($record->DESCRIPTION);
+
+					$liste[] = $obj;
+				}
+
+			return $liste;
+		}
 
 	}
 

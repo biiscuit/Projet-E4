@@ -39,7 +39,7 @@ class ProduitManager{
 
 	public function getAllProduitsLimit($cnx,$start,$decal){
 		
-		$sql = "SELECT * FROM produits ORDER BY ID_PROD LIMIT ? , ?";
+		$sql = "SELECT * FROM produits ORDER BY ID_PROD LIMIT ?,?";
 		$req = $cnx->prepare($sql);
 		$req->bindParam(1, $start, PDO::PARAM_INT);
         $req->bindParam(2, $decal, PDO::PARAM_INT);

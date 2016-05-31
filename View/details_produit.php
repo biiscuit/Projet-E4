@@ -1,7 +1,6 @@
 <?php 
 
 	$titrePage = $produit->getNomProd();
-	var_dump($_POST);
 	ob_start();
 
 ?>
