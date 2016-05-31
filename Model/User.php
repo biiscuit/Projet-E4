@@ -43,6 +43,15 @@
 			return $res;
 		}
 
+		function estConnecter($id){
+			if(isset($this->id_client)){
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 
 	}
 ?>

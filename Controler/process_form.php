@@ -14,6 +14,10 @@ if(isset($_POST['deconnexion'])){
 	$form_action = 2;
 }
 
+if(isset($_POST['ajout_quantite'])){
+	$form_action = 3;
+}
+
 $usr = new User();
 
 switch ($form_action) {
@@ -26,7 +30,7 @@ switch ($form_action) {
 			$msg->addErrorMessage("Erreur lors de la connexion");
 		}
 		$msg->ShowMessage();
-		require_once('Controler/produits.php');
+		//require_once('Controler/produits.php');
 		break;
 	
 	case 1:
@@ -65,6 +69,17 @@ switch ($form_action) {
 		$msg->addSuccessMessage("Vous êtes bien déconnecté.");
 		$msg->ShowMessage();
 		break;
+
+	case 3:
+		if(isset($_SESSION['id_client'])){
+
+		}
+		else{
+			$msg->addErrorMessage("Vous devez être connecté.");
+			$msg->ShowMessage();
+		}
+		break;
+
 }
 
 ?>

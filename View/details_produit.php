@@ -1,4 +1,4 @@
-<?php 
+ <?php 
 
 	$titrePage = $produit->getNomProd();
 	ob_start();
@@ -38,16 +38,17 @@
 
 				<tr>
 					<td style="text-align:left">Description: </td>
-					<td style="text-align:left;padding-left:50px"> <?= (empty($produit->getDescription()))? 'Aucune Description ' : $produit->getDescription() ?> </td>
+					<td style="text-align:left;padding-left:50px"> <?= (empty($produit->getDescription())) ? 'Aucune Description ' : $produit->getDescription() ?> </td>
 				</tr>
 
 				</table>
 
 				<?php
+				var_dump($_POST);
 					if($produit->getStockProd() != 0){
 				?>
 
-				<form style="margin-top:10%" method="post">
+				<form style="margin-top:10%" method="POST">
 						<div class="form-group"> 
 							<label for ="quantite"> Quantité </label>
 							<input type ="number" id="quantite" value="1" max="<?= $produit->getStockProd()?>" name="quantite"/> 

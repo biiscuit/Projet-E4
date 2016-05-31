@@ -27,7 +27,7 @@ if(isset($_GET['action'])){
 	$_SESSION['action'] = $_GET['action'];
 }
 //var_dump($_SESSION);
-if(isset($_POST['inscription']) || isset($_POST['connexion']) || isset($_POST['deconnexion'])){
+if(isset($_POST['inscription']) || isset($_POST['connexion']) || isset($_POST['deconnexion']) || isset($_POST['ajout_quantite']) ){
 	require_once("Controler/process_form.php");
 }
 
