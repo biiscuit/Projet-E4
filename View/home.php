@@ -1,25 +1,7 @@
 <?php 
 
 	$titrePage = "Accueil";
-	$pdt = new ProduitManager();
-	$pagination = new Pagination();
 	ob_start();
-
-	$pagination->setDecal(9);
-	$pagination->setNbPage($pdt->getNbProduits($cnx)->nb_prod,$pagination->getDecal());
-
-	if(isset($_GET['page'])){
-		$pagination->setStart($_GET['page']);
-		$pagination->setPageActuelle($_GET['page']);
-	}
-	else{
-		$pagination->setStart(0);
-		$pagination->setPageActuelle(1);
-	}
-
-	// le compteur d'images par ligne, il commence a 0 , et on fait un modulo dessus pour finir
-	$compteur = 0;
-	$lstProd = $pdt->getAllProduitsLimit($cnx,$pagination->getStart(),$pagination->getDecal());
 
 ?>
 
@@ -35,8 +17,7 @@
 			$compteur++;
 ?>
 	<td width=33%> 
-				<!-- href="index.php?page=details_produit&id_produit=<?php //$value['id_produit']?><!-- " -->
-		<a class="btn btn-link center-block" >
+		<a class="btn btn-link center-block" href='index.php?page=section=0&id_produit=<?= $value->getIdProd();?>'>
 			<div class="text-center">
 				<img style="height:120px" src='<?= $value->getImgProd(); ?>'>
 				<p class=""> <u> <?php echo $value->getNomProd() ?> </u></p>
@@ -58,9 +39,9 @@
 			<div class="text-center">
 
 			<?php
-				for ($i=1; $i <= $pagination->getNbPage(); $i++) { 
+				for ($num_page=1; $num_page <= $pagination->getNbPage(); $num_page++) { 
 			?>
-					<a class="btn btn-primary" href="index.php?section=0&page=<?= $i ?>"> <?= $i ?></a>
+					<a class="btn btn-primary" href="index.php?section=0&page=<?= $num_page ?>"> <?= $num_page ?></a>
 			<?php
 				}
 			?>

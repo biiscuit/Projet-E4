@@ -18,7 +18,12 @@ $_SESSION['action'] = "listing";
 // CONNEXION BDD
 $db = new Database();
 $cnx = $db->connect();
+
+// INSTANCIATION DES CLASSES
 $msg = new Message();
+$pdt = new ProduitManager();
+$cat = new CategorieManager();
+$pagination = new Pagination();
 
 // RECUPERE GET DE L'URL
 
@@ -38,10 +43,43 @@ if(isset($_GET['section'])){
 
 	switch ($section) {
 		case '0':
+		default:			
+			$pagination->setDecal(9);
+			$pagination->setNbPage($pdt->getNbProduits($cnx)->nb_prod,$pagination->getDecal());
+			
+			if(isset($_GET['page'])){
+
+				$pagination->setStart($_GET['page']);
+				$pagination->setPageActuelle($_GET['page']);
+			}
+			else{
+				$pagination->setStart(0);
+				$pagination->setPageActuelle(1);
+			}
+			
+			// le compteur d'images par ligne, il commence a 0 , et on fait un modulo dessus pour finir
+			$compteur = 0;
+			$lstProd = $pdt->getAllProduitsLimit($cnx,$pagination->getStart(),$pagination->getDecal());
+
 			require_once("View/home.php");
 			break;
 
 		case '1':
+			$pagination->setDecal(18);
+			$pagination->setNbPage($cat->getNbCategories($cnx)->nb_cat,$pagination->getDecal());
+
+			if(isset($_GET['page'])){
+				$pagination->setStart($_GET['page']);
+				$pagination->setPageActuelle($_GET['page']);
+			}
+			else{
+				$pagination->setStart(0);
+				$pagination->setPageActuelle(1);
+			}
+
+			// le compteur d'images par ligne, il commence a 0 , et on fait un modulo dessus pour finir
+			$compteur = 0;
+			$lstCat = $cat->getAllCategorieLimit($cnx,$pagination->getStart(),$pagination->getDecal());
 			require_once("Controler/categories.php");
 			break;
 
@@ -51,6 +89,23 @@ if(isset($_GET['section'])){
 	}
 }
 else {
+	//Affichage des produits comme le cas section = 0
+	$pagination->setDecal(9);
+	$pagination->setNbPage($pdt->getNbProduits($cnx)->nb_prod,$pagination->getDecal());
+	
+	if(isset($_GET['page'])){
+
+		$pagination->setStart($_GET['page']);
+		$pagination->setPageActuelle($_GET['page']);
+	}
+	else{
+		$pagination->setStart(0);
+		$pagination->setPageActuelle(1);
+	}
+	
+	// le compteur d'images par ligne, il commence a 0 , et on fait un modulo dessus pour finir
+	$compteur = 0;
+	$lstProd = $pdt->getAllProduitsLimit($cnx,$pagination->getStart(),$pagination->getDecal());
 	require_once("View/home.php");
 }
 
