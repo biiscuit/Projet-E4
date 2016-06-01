@@ -69,13 +69,82 @@
 			return $this->liste_id_items;
 		}
 
-		// Retire la quantité des stocks de la base de données et s'ajoute dans la commande du client
-		public function passerCommande(){
+		public function passerCommande($cnx){
+
+			// Création de la facture dans la table facture
+			$sql = "INSERT INTO factures VALUES (null,null,?,?,?,'1')";
+			$req = $cnx->prepare($sql);
+			$req->execute(array($_SESSION['id_client'],date("Y-m-d"),$this->getTotalPanier()));
+
+			// On récupère l'ID de la facture créer
+			$sql = "SELECT max(NUM_FACTURE) as num_facture FROM factures";
+			$num_facture = $cnx->query($sql);
+			$num_facture = $num_facture->fetch(PDO::FETCH_OBJ);
+
+			// Création du détails dans la facture dans factures_composer_produits
+			$sql = "INSERT INTO factures_composer_produits VALUES (?,?,?,?)";
+			$req = $cnx->prepare($sql);
+			foreach ($this->getListeId() as $key => $value) {
+				
+				// On récupère le prix actuelle du produit
+				$sql2 = "SELECT prix_prod as prix FROM produits WHERE ID_PROD = ?";
+				$prix_prod = $cnx->prepare($sql2);
+				$prix_prod->execute(array($value['id_prod']));
+				$prix_prod = $prix_prod->fetch(PDO::FETCH_OBJ);
+
+				// On execute la requet d'ajout dans factures_composer_produits
+				$req->execute(array($num_facture->num_facture,$value['id_prod'],$value['qte'],$prix_prod->prix));
+			}
 
 		}
 
-		// Affiche les commandes effectuées par le client
-		public function afficherCommande($id_client){
+		public function afficherCommande($cnx){
+
+			$sql = "SELECT * FROM factures WHERE ID_CLIENT = ?";
+			$req = $cnx->prepare($sql);
+			$req->execute(array($_SESSION['id_client']));
+
+			$liste = array();
+
+			while($record = $req->fetch(PDO::FETCH_OBJ)){
+				$obj = new Facture();
+
+				$obj->setNumFacture($record->NUM_FACTURE);
+				$obj->setNumImmat($record->NUM_IMMAT);
+				$obj->setIdClient($record->ID_CLIENT);
+				$obj->setDateFacture($record->DATE_FACTURE);
+				$obj->setPrixTotal($record->PRIX_TOTAL);
+				$obj->setPayer($record->PAYER);
+
+				$liste[] = $obj;
+
+			}
+
+			return $liste;
+
+		}
+
+		public function afficherDetailsCommande($cnx,$num_facture){
+
+			$sql = "SELECT * FROM factures_composer_produits WHERE NUM_FACTURE = ?";
+			$req = $cnx->prepare($sql);
+			$req->execute(array($num_facture));
+
+			$liste = array();
+
+			while($record = $req->fetch(PDO::FETCH_OBJ)){
+				$obj = new FactureComposerProduit();
+
+				$obj->setNumFacture($record->NUM_FACTURE);
+				$obj->setIdProd($record->ID_PROD);
+				$obj->setQuantiteProd($record->QUANTITE_PROD);
+				$obj->setPrixProd($record->PRIX_EFFECTIF_PROD);
+
+				$liste[] = $obj;
+
+			}
+
+			return $liste;
 
 		}
 

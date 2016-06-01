@@ -43,7 +43,7 @@ Class Produit{
 		return $this->nom_prod;
 	}
 
-	public function setprixProd($prix){
+	public function setPrixProd($prix){
 		$this->prix_prod = $prix;
 	}
 
