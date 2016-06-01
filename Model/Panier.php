@@ -7,7 +7,7 @@
 
 
 		public function setTotalPanier($prix,$qte,$signe){
-			if($signe == "add"){
+			if($signe == "+"){
 				$this->total_panier = $this->total_panier + $prix*$qte;
 			}
 			else{
@@ -20,19 +20,41 @@
 		}
 
 		public function ajouterId($cnx,$id,$qte){
-			// On ajoute l'id s'il n'existe pas dans le tableau
-			if(array_search($id, array_column($this->liste_id_items,'id_prod')) === false){
-				$this->liste_id_items[] = array(
-					'id_prod' => $id,
-					'qte' => $qte
-				);
+
+			//$bool_ajt renvoi soit un booléen faux si la clé n'existe pas , soit renvoi la clé si elle existe dans le tableau
+			$bool_ajt = array_search($id, array_column($this->liste_id_items,'id_prod'));
 
 			$sql = "SELECT prix_prod FROM produits WHERE ID_PROD = ?";
 			$req = $cnx->prepare($sql);
 			$req->execute(array($id));
 			$prix = $req->fetch(PDO::FETCH_OBJ);
 
-			$this->setTotalPanier($prix->prix_prod,$qte,"add");
+			// On ajoute l'id s'il n'existe pas dans le tableau
+			if( $bool_ajt === false){
+				$this->liste_id_items[] = array(
+					'id_prod' => $id,
+					'qte' => $qte
+				);
+
+				$this->setTotalPanier($prix->prix_prod,$qte,"+");
+				return true;
+			}
+			// On remplace la case par la nouvelle valeur
+			elseif(is_numeric($bool_ajt)){
+
+				$old_qte = $this->liste_id_items[$bool_ajt]['qte'];
+
+				$this->liste_id_items[$bool_ajt] = array(
+					'id_prod' => $id,
+					'qte' => $qte
+				);
+
+				if($old_qte - $qte > 0){
+					$this->setTotalPanier($prix->prix_prod,($old_qte-$qte),"-");
+				}
+				elseif($old_qte - $qte < 0){
+					$this->setTotalPanier($prix->prix_prod,-($old_qte-$qte),"+");
+				}
 				return true;
 			}
 			else{
@@ -57,7 +79,7 @@
 				$req->execute(array($id));
 				$prix = $req->fetch(PDO::FETCH_OBJ);
 
-				$this->setTotalPanier($prix->prix_prod,$qte,"red");
+				$this->setTotalPanier($prix->prix_prod,$qte,"-");
 				return true;
 			}
 			else{
@@ -95,7 +117,6 @@
 				// On execute la requet d'ajout dans factures_composer_produits
 				$req->execute(array($num_facture->num_facture,$value['id_prod'],$value['qte'],$prix_prod->prix));
 			}
-
 		}
 
 		public function afficherCommande($cnx){
@@ -121,7 +142,6 @@
 			}
 
 			return $liste;
-
 		}
 
 		public function afficherDetailsCommande($cnx,$num_facture){
@@ -145,7 +165,6 @@
 			}
 
 			return $liste;
-
 		}
 
 

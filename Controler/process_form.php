@@ -66,26 +66,17 @@ switch ($form_action) {
 
 	case 2:
 		unset($_SESSION['id_client']);
+		session_destroy();
 		$msg->addSuccessMessage("Vous êtes bien déconnecté.");
 		$msg->ShowMessage();
 		break;
 
 	case 3:
 		if(isset($_SESSION['id_client'])){
-			$_SESSION['panier']->ajouterId($cnx,4,33); // 0
-			$_SESSION['panier']->ajouterId($cnx,6,3); // 1
-			$_SESSION['panier']->ajouterId($cnx,2,34); // 2
-			$_SESSION['panier']->ajouterId($cnx,8,3); // 3
-			$_SESSION['panier']->ajouterId($cnx,10,4); // 4
-			$_SESSION['panier']->ajouterId($cnx,11,3); // 5
-			//var_dump($_SESSION['panier']);
-			var_dump($_SESSION['id_client']);
-			$_SESSION['panier']->afficherCommande($cnx);
-			$num_facture = $_SESSION['panier']->afficherCommande($cnx)[1]->getNumFacture();
-			var_dump($num_facture);
-			var_dump($_SESSION['panier']->afficherDetailsCommande($cnx,$num_facture));
-
-
+			$_SESSION['panier']->ajouterId($cnx,$_POST['id_produit'],$_POST['quantite']);
+			var_dump($_SESSION['panier']->getListeId());
+			var_dump($_SESSION['panier']);
+			
 		}
 		else{
 			$msg->addErrorMessage("Vous devez être connecté.");
