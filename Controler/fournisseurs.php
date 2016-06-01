@@ -10,7 +10,7 @@ $pagination = new Pagination();
 		case '1':
 		default:
 			$pagination->setDecal(18);
-			$pagination->setNbPage($fourn->getNbCategories($cnx)->nb_cat,$pagination->getDecal());
+			$pagination->setNbPage($fourn->getNbFournisseurs($cnx)->nb_fourn,$pagination->getDecal());
 
 			if(isset($_GET['page'])){
 				$pagination->setStart($_GET['page']);
@@ -23,13 +23,13 @@ $pagination = new Pagination();
 
 			// le compteur d'images par ligne, il commence a 0 , et on fait un modulo dessus pour finir
 			$compteur = 0;
-			$lstCat = $fourn->getAllCategorieLimit($cnx,$pagination->getStart(),$pagination->getDecal());
-			require_once("View/categories.php");
+			$lstFourn = $fourn->getAllFournisseurLimit($cnx,$pagination->getStart(),$pagination->getDecal());
+			require_once("View/fournisseurs.php");
 			break;
 
 		case '2':
 			$pagination->setDecal(9);
-			$pagination->setNbPage($fourn->getNbCategories($cnx)->nb_cat,$pagination->getDecal());
+			$pagination->setNbPage($fourn->getNbFournisseurs($cnx)->nb_fourn,$pagination->getDecal());
 
 			if(isset($_GET['page'])){
 				$pagination->setStart($_GET['page']);
@@ -42,8 +42,8 @@ $pagination = new Pagination();
 
 			// le compteur d'images par ligne, il commence a 0 , et on fait un modulo dessus pour finir
 			$compteur = 0;
-			$lstProdByCat = $fourn->getAllProdByCat($cnx,$pagination->getStart(),$pagination->getDecal(),$_GET['id_cat']);
-			require_once("View/produit_by_cat.php");
+			$lstProdByFourn = $fourn->getAllProdByFourn($cnx,$pagination->getStart(),$pagination->getDecal(),$_GET['id_fourn']);
+			require_once("View/produit_by_fourn.php");
 			break;	
 	}
 
