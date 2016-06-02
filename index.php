@@ -32,7 +32,7 @@ if(isset($_GET['action'])){
 }
 //var_dump($_SESSION);
 if(isset($_POST['inscription']) || isset($_POST['connexion']) || isset($_POST['deconnexion']) || isset($_POST['ajout_quantite']) 
-	|| isset($_POST['supprimer_quantite']) || isset($_POST['confirmer_panier']) ){
+	|| isset($_POST['supprimer_quantite']) || isset($_POST['confirmer_panier']) || isset($_POST['annuler_panier']) ){
 	require_once("Controler/process_form.php");
 }
 

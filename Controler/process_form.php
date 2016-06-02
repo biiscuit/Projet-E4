@@ -26,6 +26,10 @@ if(isset($_POST['confirmer_panier'])){
 	$form_action = 5;
 }
 
+if(isset($_POST['annuler_panier'])){
+	$form_action = 6;
+}
+
 $usr = new User();
 
 switch ($form_action) {
@@ -92,15 +96,32 @@ switch ($form_action) {
 		break;
 
 	case 4:
-		//var_dump($_SESSION['panier']);
-		$_SESSION['panier']->supprimerId($cnx,$_POST['id_produit']);
-		//var_dump($_SESSION['panier']);
-		$msg->addSuccessMessage("Produit supprimé du panier.");
-		$msg->ShowMessage();
+		if($_SESSION['panier']->supprimerId($cnx,$_POST['id_produit']) == true){
+			$msg->addSuccessMessage("Produit supprimé du panier.");
+			$msg->ShowMessage();
+		}
+		else{
+			$msg->addErrorMessage("Erreur lors de la suppression.");
+			$msg->ShowMessage();
+		}
 		break;
 
 	case 5:
-		$_SESSION['panier']->passerCommande($cnx);
+		if($_SESSION['panier']->passerCommande($cnx) == true){
+			$msg->addSuccessMessage("Commande effectué.");
+			$msg->ShowMessage();
+		}
+		else{
+			$msg->addErrorMessage("Erreur lors de la commande.");
+			$msg->ShowMessage();
+		}
+		break;
+
+	case 6:
+		$_SESSION['panier']->viderPanier();
+			$msg->addSuccessMessage("Suppression du panier effectué.");
+			$msg->ShowMessage();
+		break;
 }
 
 ?>

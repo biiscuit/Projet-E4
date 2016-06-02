@@ -115,28 +115,37 @@
 		public function passerCommande($cnx){
 
 			// Création de la facture dans la table facture
-			$sql = "INSERT INTO factures VALUES (null,null,?,?,?,'1')";
-			$req = $cnx->prepare($sql);
-			$req->execute(array($_SESSION['id_client'],date("Y-m-d"),$this->getTotalPanier()));
+			$sql_fac = "INSERT INTO factures VALUES (null,null,?,?,'0','1')";
+			$req_fac = $cnx->prepare($sql_fac);
+			var_dump($this->getTotalPanier());
+			$req_fac->execute(array($_SESSION['id_client'],date("Y-m-d")));
 
 			// On récupère l'ID de la facture créer
-			$sql = "SELECT max(NUM_FACTURE) as num_facture FROM factures";
-			$num_facture = $cnx->query($sql);
+			$sql_num = "SELECT max(NUM_FACTURE) as num_facture FROM factures";
+			$num_facture = $cnx->query($sql_num);
 			$num_facture = $num_facture->fetch(PDO::FETCH_OBJ);
 
 			// Création du détails dans la facture dans factures_composer_produits
-			$sql = "INSERT INTO factures_composer_produits VALUES (?,?,?,?)";
-			$req = $cnx->prepare($sql);
+			$sql_fcp = "INSERT INTO factures_composer_produits VALUES (?,?,?,?)";
+			$req_fcp = $cnx->prepare($sql_fcp);
+
 			foreach ($this->getListeId() as $key => $value) {
 				
 				// On récupère le prix actuelle du produit
-				$sql2 = "SELECT prix_prod as prix FROM produits WHERE ID_PROD = ?";
-				$prix_prod = $cnx->prepare($sql2);
+				$sql_prix = "SELECT prix_prod as prix FROM produits WHERE ID_PROD = ?";
+				$prix_prod = $cnx->prepare($sql_prix);
 				$prix_prod->execute(array($value['id_prod']));
 				$prix_prod = $prix_prod->fetch(PDO::FETCH_OBJ);
 
 				// On execute la requet d'ajout dans factures_composer_produits
-				$req->execute(array($num_facture->num_facture,$value['id_prod'],$value['qte'],$prix_prod->prix));
+				$req_fcp->execute(array($num_facture->num_facture,$value['id_prod'],$value['qte'],$prix_prod->prix));
+			}
+			if($req_fac == true){
+				$this->viderPanier();
+				return true;
+			}
+			else{
+				return false;
 			}
 		}
 
@@ -166,11 +175,11 @@
 			return $liste;
 		}
 
-		public function afficherDetailsFacture($cnx,$num_facture){
+		public function afficherDetailsFacture($cnx,$num_facture,$id_client){
 
-			$sql = "SELECT * FROM factures_composer_produits WHERE NUM_FACTURE = ?";
+			$sql = "SELECT * FROM factures_composer_produits fcp, factures f WHERE `f`.`ID_CLIENT` = ? AND `fcp`.`NUM_FACTURE` = `f`.`NUM_FACTURE` AND `f`.`NUM_FACTURE` = ?";
 			$req = $cnx->prepare($sql);
-			$req->execute(array($num_facture));
+			$req->execute(array($id_client,$num_facture));
 
 			$liste = array();
 
@@ -186,7 +195,12 @@
 
 			}
 
-			return $liste;
+			if(empty($liste)){
+				return false;
+			}
+			else{
+				return $liste;
+			}
 		}
 
 

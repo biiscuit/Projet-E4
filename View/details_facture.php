@@ -1,6 +1,6 @@
 <?php 
 
-	$titrePage = "Mon Panier";
+	$titrePage = "Facture n°" . $_GET['num_facture'];
 	ob_start();
 
 ?>
@@ -18,25 +18,30 @@
 			<td>Prix unitaire</td>
 			<td>Quantité</td>
 			<td>Prix TTC</td>
-			<td>Supprimer</td>
 		</tr>
 
 	<?php
-		if(count($lstPanier) == 0){
+		$total = 0;
+		if(count($lstCommande) == 0){
 			echo '<td width:100% class="text-center" colspan="6"> Aucun Produit dans le panier</td>';
 		}
 		else{
-			foreach ($lstPanier as $value) {
+			foreach ($lstCommande as $value) {
 				echo '<tr class="text-center">';
 	?>
 		<td> 
-			<img width="50px" height="50px" src=<?= $value->getImgProd()?> >
+			<img width="50px" height="50px" 
+				src=<?php if($lstProdFac[$compteur]->getIdProd() == $value->getIdProd()){
+							echo $lstProdFac[$compteur]->getImgProd();
+							}?> >
 		</td>
 
 		<td>
 			<a class="btn btn-link center-block" style="text-decoration: none;" 
 				href="index.php?section=0&action=2&id_produit=<?= $value->getIdProd()?> " >
-				<?= $value->getNomProd() ?>
+				<?php if($lstProdFac[$compteur]->getIdProd() == $value->getIdProd()){
+							echo $lstProdFac[$compteur]->getNomProd();
+						} ?>
 			</a>
 		</td>
 
@@ -45,45 +50,55 @@
 		</td>
 
 		<td>
-			<p> <?= $_SESSION['panier']->getQuantite($value->getIdProd()) ?> </p>
+			<p> <?= $value->getQuantiteProd()?> </p>
 		</td>
 
 		<td>
-			<p> <?= $_SESSION['panier']->getQuantite($value->getIdProd()) * $value->getPrixProd() . " €" ?></p>
- 		</td>
-
- 		<td>
- 			<form method="POST">		
-				<div class="form-group">
-					<input type="hidden" name="id_produit" value=<?= $value->getIdProd() ?>>
-					<button type="submit" class="btn btn-danger" aria-label="Left Align" name="supprimer_quantite">
-					  <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</button>
-				</div>
-			</form>
+			<p> <?= $value->getQuantiteProd() * $value->getPrixProd() ?> €</p>
  		</td>
 	<?php
+			$total = $total + $value->getQuantiteProd() * $value->getPrixProd();
+			$compteur++;
 			echo '</tr>';
 			}
 
 		}
-		if($_SESSION['panier']->getTotalPanier() != 0){
+
+		if($main_oeuvre->getIdMo() != null){
+			echo '<tr class="text-center">';
+	?>
+		<td> <p> Main Oeuvre </p> </td>
+		<td>
+			<p> <?= $main_oeuvre->getNomMo(); ?> </p>
+		</td>
+		<td>
+			<p> <?= $main_oeuvre->getPrixMo(); ?> € </p>
+		</td>
+
+		<td>
+			<p> <?= $main_oeuvre->getNbHeuresMo(); ?> </p>
+		</td>
+
+		<td>
+			<p> <?= $main_oeuvre->getPrixMo() * $main_oeuvre->getNbHeuresMo(); ?> € </p>
+		</td>
+	<?php
+		$total = $total + ($main_oeuvre->getPrixMo() * $main_oeuvre->getNbHeuresMo());
+		}
+		echo '</tr>';
 	?>
 
 		<tr class="text-center">
-			<td colspan="5"></td>
+			<td colspan="4"></td>
 			<td>
-				<p> TOTAL : <?= $_SESSION['panier']->getTotalPanier() . " €" ?> </p>
+				<p> TOTAL : <?= $total . " €" ?> </p>
 			</td>
 		</tr>
-	<?php 
-		}
-	?>
 
 	</table>
 
 	<?php
-		if(count($lstPanier) != 0){
+		if($_GET['payer'] == 0 && ($main_oeuvre->getIdMo() == null) ){
 	?>
 	<form method="POST" class="text-center">		
 		<div class="form-group">
@@ -100,8 +115,6 @@
 		?>
 
 </div>
-
-
 			
 <?php
 
