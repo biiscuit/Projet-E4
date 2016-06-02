@@ -38,9 +38,9 @@
           	<li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Mon Espace Perso <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="#">Mon Panier</a></li>
-                <li><a href="#">Mes Factures</a></li>
-                <li><a href="#">Mes Rendez-Vous</a></li>
+                <li><a href="index.php?section=3&action=1">Mon Panier <?= count($_SESSION['panier']->getListeId()) == 0 ? '' : '- '.count($_SESSION['panier']->getListeId()) .' produit(s)' ?></a></li>
+                <li><a href="index.php?section=3&action=2">Mes Factures</a></li>
+                <li><a href="index.php?section=3&action=3">Mes Rendez-Vous</a></li>
               </ul>
             </li>
           	<li><a><form method="POST" style="display:inline;"><button style="background-color:transparent;border:none;" type="submit" name="deconnexion">Déconnexion</button></form></a></li>

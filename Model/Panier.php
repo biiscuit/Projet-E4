@@ -15,6 +15,15 @@
 			}
 		}
 
+		public function getQuantite($id){
+
+			foreach ($this->liste_id_items as $key => $value) {
+				if($value['id_prod'] == $id){
+					return $value['qte'];
+				}
+			}
+		}
+
 		public function getTotalPanier(){
 			return $this->total_panier;
 		}
@@ -67,7 +76,7 @@
 			// unset($tab[clé]) permet de supprimer un élément d'un tableau
 			$cle = array_search($id, array_column($this->liste_id_items,'id_prod'));
 			// cle renvoi false s'il ne trouve aucune correspondance
-			if($cle != false){
+			if(is_numeric($cle)){
 				//On récupère la quantité du produit à supprimer
 				$qte = $this->liste_id_items[$cle]['qte'];
 				unset($this->liste_id_items[$cle]);
@@ -89,6 +98,18 @@
 
 		public function getListeId(){
 			return $this->liste_id_items;
+		}
+
+		public function viderPanier(){
+			$this->liste_id_items = array();
+			$this->total_panier =0;
+		}
+
+		// Affiche les produits sélectionnés avant de confirmer l'achat
+		public function afficherCommande($cnx,$mng){ 
+
+			return $mng->getProduitInListe($cnx,$this->liste_id_items);
+
 		}
 
 		public function passerCommande($cnx){
@@ -119,7 +140,8 @@
 			}
 		}
 
-		public function afficherCommande($cnx){
+		// Affiche la facture donc une fois la commande passer et le tout payé
+		public function afficherFacture($cnx){
 
 			$sql = "SELECT * FROM factures WHERE ID_CLIENT = ?";
 			$req = $cnx->prepare($sql);
@@ -144,7 +166,7 @@
 			return $liste;
 		}
 
-		public function afficherDetailsCommande($cnx,$num_facture){
+		public function afficherDetailsFacture($cnx,$num_facture){
 
 			$sql = "SELECT * FROM factures_composer_produits WHERE NUM_FACTURE = ?";
 			$req = $cnx->prepare($sql);

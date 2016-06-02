@@ -31,7 +31,8 @@ if(isset($_GET['action'])){
 	$_SESSION['action'] = $_GET['action'];
 }
 //var_dump($_SESSION);
-if(isset($_POST['inscription']) || isset($_POST['connexion']) || isset($_POST['deconnexion']) || isset($_POST['ajout_quantite']) ){
+if(isset($_POST['inscription']) || isset($_POST['connexion']) || isset($_POST['deconnexion']) || isset($_POST['ajout_quantite']) 
+	|| isset($_POST['supprimer_quantite']) || isset($_POST['confirmer_panier']) ){
 	require_once("Controler/process_form.php");
 }
 
@@ -51,6 +52,14 @@ if(isset($_GET['section'])){
 		case '2':
 			require_once("Controler/fournisseurs.php");
 			break;
+
+		case '3':
+			if(isset($_SESSION['id_client'])){
+				require_once("Controler/espace_perso.php");
+			}
+			else{
+				header("Location: index.php?section=0");
+			}
 	}
 }
 else {

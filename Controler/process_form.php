@@ -18,6 +18,14 @@ if(isset($_POST['ajout_quantite'])){
 	$form_action = 3;
 }
 
+if(isset($_POST['supprimer_quantite'])){
+	$form_action = 4;
+}
+
+if(isset($_POST['confirmer_panier'])){
+	$form_action = 5;
+}
+
 $usr = new User();
 
 switch ($form_action) {
@@ -74,9 +82,8 @@ switch ($form_action) {
 	case 3:
 		if(isset($_SESSION['id_client'])){
 			$_SESSION['panier']->ajouterId($cnx,$_POST['id_produit'],$_POST['quantite']);
-			var_dump($_SESSION['panier']->getListeId());
-			var_dump($_SESSION['panier']);
-			
+			$msg->addSuccessMessage("Produit ajouté au panier.");
+			$msg->ShowMessage();	
 		}
 		else{
 			$msg->addErrorMessage("Vous devez être connecté.");
@@ -84,6 +91,16 @@ switch ($form_action) {
 		}
 		break;
 
+	case 4:
+		//var_dump($_SESSION['panier']);
+		$_SESSION['panier']->supprimerId($cnx,$_POST['id_produit']);
+		//var_dump($_SESSION['panier']);
+		$msg->addSuccessMessage("Produit supprimé du panier.");
+		$msg->ShowMessage();
+		break;
+
+	case 5:
+		$_SESSION['panier']->passerCommande($cnx);
 }
 
 ?>
