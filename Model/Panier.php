@@ -117,7 +117,6 @@
 			// Création de la facture dans la table facture
 			$sql_fac = "INSERT INTO factures VALUES (null,null,?,?,'0','1')";
 			$req_fac = $cnx->prepare($sql_fac);
-			var_dump($this->getTotalPanier());
 			$req_fac->execute(array($_SESSION['id_client'],date("Y-m-d")));
 
 			// On récupère l'ID de la facture créer

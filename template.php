@@ -40,7 +40,7 @@
               <ul class="dropdown-menu">
                 <li><a href="index.php?section=3&action=1">Mon Panier <?= count($_SESSION['panier']->getListeId()) == 0 ? '' : '- '.count($_SESSION['panier']->getListeId()) .' produit(s)' ?></a></li>
                 <li><a href="index.php?section=3&action=2">Mes Factures</a></li>
-                <li><a href="index.php?section=3&action=3">Mes Rendez-Vous</a></li>
+                <li><a href="index.php?section=3&action=4">Mes Rendez-Vous</a></li>
               </ul>
             </li>
           	<li><a><form method="POST" style="display:inline;"><button style="background-color:transparent;border:none;" type="submit" name="deconnexion">Déconnexion</button></form></a></li>

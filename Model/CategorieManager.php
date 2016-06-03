@@ -1,11 +1,7 @@
 <?php 
 
 	class CategorieManager{
-
-		private $idCategorie;
-		private $libelle;
-
-
+		
 		// Getters / Setters (Accesseurs / mutateurs)
 
 		public function getAllCategorie($cnx){

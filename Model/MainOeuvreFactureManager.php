@@ -2,10 +2,6 @@
 
 	class MainOeuvreFactureManager{
 
-		private $numFacture;
-		private $idMo;
-		private $nbHeuresMo;
-		private $prixMo;
 
 		public function getMOByNumFacture($cnx,$num){
 

@@ -2,15 +2,6 @@
 
 class ProduitManager{
 
-	private $id_prod;
-	private $id_fourn;
-	private $id_cat;
-	private $nom_prod;
-	private $prix_prod;
-	private $stock_prod;
-	private $img_prod;
-	private $description;
-
 	public function getAllProduits($cnx){
 
 		$sql = "SELECT * FROM Produits ORDER BY id_prod";

@@ -4,6 +4,7 @@ $prod = new ProduitManager();
 $mo = new MainOeuvreFactureManager();
 $fac = new FactureManager();
 $pagination = new Pagination();
+$rdv = new RendezVousManager();
 
 
 switch ($_SESSION['action']) {
@@ -63,6 +64,10 @@ switch ($_SESSION['action']) {
 			}
 			break;
 
-		case '4': // Afficher les RDV et pouvoir prendre un RDV
+		case '4': // Afficher les RDV
+
+			$lstRdv = $rdv->getRdvByIdClient($cnx,$_SESSION['id_client']);
+			require_once("View/rendez_vous.php");
+
 			break;	
 	}

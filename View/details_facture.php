@@ -97,23 +97,6 @@
 
 	</table>
 
-	<?php
-		if($_GET['payer'] == 0 && ($main_oeuvre->getIdMo() == null) ){
-	?>
-	<form method="POST" class="text-center">		
-		<div class="form-group">
-			<button type="submit" class="btn btn-success" aria-label="Left Align" name="confirmer_panier">
-				<p style="margin-bottom:0px">Confirmer ma commande <span class="glyphicon glyphicon-ok" aria-hidden="true"></span></p>
-			</button>
-			<button type="submit" class="btn btn-danger" aria-label="Left Align" name="annuler_panier">
-				<p style="margin-bottom:0px">Annuler ma commande <span class="glyphicon glyphicon-remove" aria-hidden="true"></span></p>
-			</button>
-		</div>
-	</form>
-		<?php
-			}
-		?>
-
 </div>
 			
 <?php

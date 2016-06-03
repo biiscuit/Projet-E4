@@ -1,16 +1,7 @@
 <?php 
 
 	class FournisseurManager{
-
-		private $id;
-		private $nom;
-		private $adr;
-		private $ville;
-		private $cp;
-		private $tel;
-		private $fax;
-		private $mail;
-
+		
 		public function getAllFournisseur($cnx){
 			
 			// Requete SQL
